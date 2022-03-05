@@ -1,0 +1,9 @@
+provider "aci" {
+    # cisco-aci user name
+    username = "USERNAME"
+    # cisco-aci password
+    password = "PASSWORD"
+    # cisco-aci url
+    url      = "APIC_URL"
+    insecure = true
+}
