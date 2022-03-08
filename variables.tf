@@ -3,16 +3,16 @@ variable "aci_tenant_name" {
   default = "WAR-TF"
 }
 
-variable aci_username {
+variable "aci_username" {
   default = "admin"
 }
 
-variable aci_password {
+variable "aci_password" {
   default = "Brasilia#2021"
   sensitive = true
 }
 
-variable aci_url {
+variable "aci_url" {
   default = "https://10.0.1.151"
 }
 
@@ -98,15 +98,15 @@ variable "linked_clone" {
 
 variable "web_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 0
+  default = 1
 }
 
 variable "app_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 0
+  default = 1
 }
 
 variable "db_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 0
+  default = 1
 }
