@@ -26,7 +26,7 @@ variable "vsphere_password" {
   sensitive = true
 }
 variable "vsphere_server" {
-  default = "https://dc-vcsa.bsa.local"
+  default = "dc-vcsa.bsa.local"
   description = "the hostname or ip address of your vcenter server"
 }
 
@@ -57,7 +57,7 @@ variable "vsphere_vm_name" {
 variable "vsphere_resource_pool" {
   type = string
   description = "the name of the resourcepool for examples: Cluster1/Resources"
-  default = "DC-01-HX"
+  default = "TF-WAR-VMs"
 
 }
 

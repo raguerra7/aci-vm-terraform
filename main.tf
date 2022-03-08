@@ -5,7 +5,7 @@ terraform {
       source = "hashicorp/vsphere"
     }
     aci = {
-      source = "CiscoDevNet/aci"
+      source = "ciscodevnet/aci"
     }
   
   }

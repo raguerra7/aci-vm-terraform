@@ -80,7 +80,7 @@ resource "vsphere_virtual_machine" "vm_web" {
     customize {
       linux_options {
         host_name = "web${count.index}"
-        domain = "cisco.com"
+        domain = "bsa.local"
       }
 
     network_interface {
@@ -168,7 +168,7 @@ resource "vsphere_virtual_machine" "vm_db" {
     customize {
       linux_options {
         host_name = "db${count.index}"
-        domain = "cisco.com"
+        domain = "bsa.local"
       }
 
     network_interface {
