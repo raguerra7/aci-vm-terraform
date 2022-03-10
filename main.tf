@@ -6,7 +6,6 @@ terraform {
     }
     aci = {
       source = "CiscoDevNet/aci"
-      version = "= 1.2.0"
     }
   
   }
@@ -28,3 +27,4 @@ provider "aci" {
     # cisco-aci url
     url      = var.aci_url
     insecure = true
+}

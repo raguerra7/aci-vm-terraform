@@ -106,3 +106,4 @@ variable "app_tier_count" {
 variable "db_tier_count" {
   description = "how many VM are deployed in Web Tier"
   default = 0
+}
