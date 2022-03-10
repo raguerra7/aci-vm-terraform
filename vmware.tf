@@ -124,7 +124,7 @@ resource "vsphere_virtual_machine" "vm_app" {
     customize {
       linux_options {
         host_name = "app${count.index}"
-        domain = "cisco.com"
+        domain = "bsa.local.com"
       }
 
     network_interface {

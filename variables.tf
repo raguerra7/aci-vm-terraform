@@ -1,64 +1,61 @@
 variable "aci_tenant_name" {
   description = "describe your variable"
-  default = "WAR-TF"
+  default = ""
 }
 
-variable "aci_username" {
-  default = "admin"
+variable aci_username {
+  default = ""
 }
 
-variable "aci_password" {
-  default = "Brasilia#2021"
-  sensitive = true
+variable aci_password {
+  default = ""
 }
 
-variable "aci_url" {
-  default = "https://10.0.1.151"
+variable aci_url {
+  default = ""
 }
 
 variable "vsphere_user" {
-  default = "administrator@vsphere.local"
+  type = string
   description = "the username for vsphere"
 }
 variable "vsphere_password" {
-  default = "Brasilia#2021"
+  type = string
   description = "The password for vsphere"
-  sensitive = true
 }
 variable "vsphere_server" {
-  default = "dc-vcsa.bsa.local"
+  type = string
   description = "the hostname or ip address of your vcenter server"
 }
 
 variable "vsphere_datacenter" {
   type = string
   description = "the name of the datacenter"
-  default = "Compute"
 }
 
 variable "vsphere_datastore" {
   type = string
   description = "the name of the datastore"
-  default = "DS-HX"
 }
 
 variable "vsphere_vm_template" {
   type = string
   description = "the name of the vm template"
-  default = "TEMPLATE_VM_RHE"
 }
 
 variable "vsphere_vm_name" {
   type = string
   description = "the name of the vm"
-  default = "Teste"
 }
 
 variable "vsphere_resource_pool" {
   type = string
-  description = "the name of the resourcepool for examples: Cluster1/Resources"
-  default = "TF-WAR-VMs"
+  description = "the name of the resourcepool for examples: Cluster1/Resources " 
+}
 
+variable "vsphere_vm_portgroup" {
+  type = string
+  description = "the name of the portgroup"
 }
 
 variable "vsphere_vm_cpu" {
@@ -98,15 +95,14 @@ variable "linked_clone" {
 
 variable "web_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 1
+  default = 0
 }
 
 variable "app_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 1
+  default = 0
 }
 
 variable "db_tier_count" {
   description = "how many VM are deployed in Web Tier"
-  default = 1
-}
+  default = 0

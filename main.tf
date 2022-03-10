@@ -1,11 +1,12 @@
-
 terraform {
   required_providers {
     vsphere = {
       source = "hashicorp/vsphere"
+      version = "1.24.3"
     }
     aci = {
-      source = "ciscodevnet/aci"
+      source = "CiscoDevNet/aci"
+      version = "= 1.2.0"
     }
   
   }
@@ -27,6 +28,3 @@ provider "aci" {
     # cisco-aci url
     url      = var.aci_url
     insecure = true
-}
-
-
