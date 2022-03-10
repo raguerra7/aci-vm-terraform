@@ -73,7 +73,7 @@ variable "vsphere_vm_memory" {
 variable "vsphere_vm_guest" {
   type = string
   description = "the name of the os type "
-  default = "centos64Guest"
+  default = "rhel8_64Guest"
 }
 
 variable "vsphere_vm_disksize" {
