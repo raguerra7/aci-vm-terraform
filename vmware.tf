@@ -60,6 +60,11 @@ resource "vsphere_virtual_machine" "vm_web" {
   num_cpus = var.vsphere_vm_cpu #2
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
+  
+  //Important of Terraform will set BIOS by default - Fix below
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"                              
+  
   wait_for_guest_ip_timeout = -1
 
   network_interface {
@@ -80,7 +85,7 @@ resource "vsphere_virtual_machine" "vm_web" {
     customize {
       linux_options {
         host_name = "web${count.index}"
-        domain = "bsa.local"
+        domain = "bsa.local" 
       }
 
     network_interface {
@@ -104,7 +109,12 @@ resource "vsphere_virtual_machine" "vm_app" {
   num_cpus = var.vsphere_vm_cpu #2
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
-  wait_for_guest_ip_timeout = -1
+  
+  //Important of Terraform will set BIOS by default - Fix below
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
+ 
+ wait_for_guest_ip_timeout = -1
 
   network_interface {
     network_id = data.vsphere_network.network_app.id
@@ -149,6 +159,10 @@ resource "vsphere_virtual_machine" "vm_db" {
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
   wait_for_guest_ip_timeout = -1
+  
+   //Important of Terraform will set BIOS by default - Fix below
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
 
   network_interface {
     network_id = data.vsphere_network.network_db.id
