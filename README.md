@@ -6,7 +6,7 @@ This repo will create a tenant with all the necesary configuration to create a 3
 
 1. Clone the Repo
 ```
-git clone https://github.com/gnuowned/aci-terraform
+git clone https://github.com/raguerra7/aci-vm-terraform
 cd aci-terraform
 ```
 2. Modify `main.tf-example` to your settings and rename it to `main.tf`

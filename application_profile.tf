@@ -27,13 +27,13 @@ resource "aci_application_epg" "DB_EPG" {
 
 resource "aci_epg_to_domain" "web" {
   application_epg_dn	= aci_application_epg.WEB_EPG.id
-  tdn			= "uni/vmmp-VMware/dom-MIA-VDS"
+  tdn			= "uni/vmmp-VMware/dom-vDS-Comp-01"
 }
 
 
 resource "aci_epg_to_domain" "app" {
   application_epg_dn	= aci_application_epg.APP_EPG.id
-  tdn			= "uni/vmmp-VMware/dom-MIA-VDS"
+  tdn			= "uni/vmmp-VMware/dom-vDS-Comp-01"
 }
 
 resource "aci_epg_to_domain" "db" {
