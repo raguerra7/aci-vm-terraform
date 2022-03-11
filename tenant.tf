@@ -17,7 +17,7 @@ resource "aci_bridge_domain" "web_bd" {
 
 resource "aci_subnet" "web_subnet" {
   parent_dn 	= aci_bridge_domain.web_bd.id
-  ip 			= "10.10.1.1/24"
+  ip 			= "10.0.1.1/24"
 }
 
 resource "aci_bridge_domain" "app_bd" {
@@ -29,7 +29,7 @@ resource "aci_bridge_domain" "app_bd" {
 
 resource "aci_subnet" "app_subnet" {
   parent_dn   = aci_bridge_domain.app_bd.id
-  ip      = "10.10.2.1/24"
+  ip      = "10.0.2.1/24"
 }
 
 
@@ -42,7 +42,7 @@ resource "aci_bridge_domain" "db_bd" {
 
 resource "aci_subnet" "db_subnet" {
   parent_dn   = aci_bridge_domain.db_bd.id
-  ip      = "10.10.3.1/16"
+  ip      = "10.0.3.1/16"
 }
 
 
