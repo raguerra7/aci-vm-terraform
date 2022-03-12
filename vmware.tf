@@ -76,6 +76,8 @@ resource "vsphere_virtual_machine" "vm_web" {
   disk {
     label = "disk0"
     size  = var.vsphere_vm_disksize #20
+    eagerly_scrub = true
+    thin_provisioned = false
   }
 
   clone {
@@ -128,6 +130,8 @@ resource "vsphere_virtual_machine" "vm_app" {
   disk {
     label = "disk0"
     size  = var.vsphere_vm_disksize #20
+    eagerly_scrub = true
+    thin_provisioned = false
   }
 
   clone {
@@ -178,6 +182,8 @@ resource "vsphere_virtual_machine" "vm_db" {
   disk {
     label = "disk0"
     size  = var.vsphere_vm_disksize #20
+    eagerly_scrub = true
+    thin_provisioned = false
   }
 
   clone {
