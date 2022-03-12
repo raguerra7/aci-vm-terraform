@@ -2,11 +2,9 @@ terraform {
   required_providers {
     vsphere = {
       source = "hashicorp/vsphere"
-      version = "1.26.0"
     }
     aci = {
       source = "ciscodevnet/aci"
-      version = "1.2.0"
     }
   
   }
