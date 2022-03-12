@@ -1,4 +1,4 @@
-//by Miguel Barajas - Gnuowned
+//by Guerra - raguerra7
 
 
 
@@ -60,6 +60,12 @@ resource "vsphere_virtual_machine" "vm_web" {
   num_cpus = var.vsphere_vm_cpu #2
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
+  
+ // Important of Terraform will set BIOS by default - Fix below
+  
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"                              
+  
   wait_for_guest_ip_timeout = -1
 
   network_interface {
@@ -81,15 +87,16 @@ resource "vsphere_virtual_machine" "vm_web" {
       linux_options {
         host_name = "web${count.index}"
         domain = "bsa.local"
+        dns_server_addresses = "10.0.128.3"
       }
 
     network_interface {
-      ipv4_address = "10.0.1.1${count.index}"  
+      ipv4_address = "10.100.1.1${count.index}"  
       ipv4_netmask = 24
 
     }
 
-      ipv4_gateway = "10.0.1.1"
+      ipv4_gateway = "10.100.1.1"
     }
   }
 }
@@ -104,7 +111,13 @@ resource "vsphere_virtual_machine" "vm_app" {
   num_cpus = var.vsphere_vm_cpu #2
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
-  wait_for_guest_ip_timeout = -1
+  
+ // Important of Terraform will set BIOS by default - Fix below
+  
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
+ 
+ wait_for_guest_ip_timeout = -1
 
   network_interface {
     network_id = data.vsphere_network.network_app.id
@@ -125,15 +138,16 @@ resource "vsphere_virtual_machine" "vm_app" {
       linux_options {
         host_name = "app${count.index}"
         domain = "bsa.local.com"
+        dns_server_addresses = "10.0.128.3"
       }
 
     network_interface {
-      ipv4_address = "10.0.2.1${count.index}"  
+      ipv4_address = "10.100.2.1${count.index}"  
       ipv4_netmask = 24
 
     }
 
-      ipv4_gateway = "10.0.2.1"
+      ipv4_gateway = "10.100.2.1"
     }
   }
 }
@@ -149,6 +163,11 @@ resource "vsphere_virtual_machine" "vm_db" {
   memory   = var.vsphere_vm_memory #1024
   guest_id = var.vsphere_vm_guest #"other3xLinux64Guest"
   wait_for_guest_ip_timeout = -1
+  
+  //  Important of Terraform will set BIOS by default - Fix below
+  
+  firmware = "efi"
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
 
   network_interface {
     network_id = data.vsphere_network.network_db.id
@@ -169,15 +188,16 @@ resource "vsphere_virtual_machine" "vm_db" {
       linux_options {
         host_name = "db${count.index}"
         domain = "bsa.local"
+        dns_server_addresses = "10.0.128.3"
       }
 
     network_interface {
-      ipv4_address = "10.0.3.1${count.index}"  
+      ipv4_address = "10.100.3.1${count.index}"  
       ipv4_netmask = 24
 
     }
 
-      ipv4_gateway = "10.0.3.1"
+      ipv4_gateway = "10.100.3.1"
     }
   }
 }
