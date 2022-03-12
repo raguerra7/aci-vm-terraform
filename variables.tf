@@ -107,3 +107,13 @@ variable "db_tier_count" {
   description = "how many VM are deployed in Web Tier"
   default = 0
 }
+
+variable "dns_list" {
+  default = ""
+}
+
+variable "dns_search" {
+  default = ""
+}
+
+
