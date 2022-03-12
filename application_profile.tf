@@ -1,4 +1,4 @@
-resource "aci_application_profile" "test-app" {
+resource "aci_application_profile" "Demo-app" {
   tenant_dn   = aci_tenant.tenant.id
   name        = "test-app"
   description = "This app profile is created by terraform"
