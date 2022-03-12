@@ -87,8 +87,6 @@ resource "vsphere_virtual_machine" "vm_web" {
       linux_options {
         host_name = "web${count.index}"
         domain = "bsa.local"
-        dns_server_list = "10.0.128.3"
-        dns_suffix_list = "bsa.local"
       }
 
     network_interface {
@@ -98,6 +96,8 @@ resource "vsphere_virtual_machine" "vm_web" {
     }
 
       ipv4_gateway = "10.100.1.1"
+      dns_server_list = "10.0.128.3"
+      dns_suffix_list = "bsa.local"
     }
   }
 }
@@ -139,8 +139,6 @@ resource "vsphere_virtual_machine" "vm_app" {
       linux_options {
         host_name = "app${count.index}"
         domain = "bsa.local.com"
-        dns_server_list = "10.0.128.3"
-        dns_suffix_list = "bsa.local"
       }
 
     network_interface {
@@ -148,8 +146,9 @@ resource "vsphere_virtual_machine" "vm_app" {
       ipv4_netmask = 24
 
     }
-
       ipv4_gateway = "10.100.2.1"
+      dns_server_list = "10.0.128.3"
+      dns_suffix_list = "bsa.local"
     }
   }
 }
@@ -190,8 +189,6 @@ resource "vsphere_virtual_machine" "vm_db" {
       linux_options {
         host_name = "db${count.index}"
         domain = "bsa.local"
-        dns_server_list = "10.0.128.3"
-        dns_suffix_list = "bsa.local"
       }
 
     network_interface {
@@ -199,8 +196,9 @@ resource "vsphere_virtual_machine" "vm_db" {
       ipv4_netmask = 24
 
     }
-
       ipv4_gateway = "10.100.3.1"
+      dns_server_list = "10.0.128.3"
+      dns_suffix_list = "bsa.local"
     }
   }
 }
