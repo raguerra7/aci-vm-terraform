@@ -96,8 +96,8 @@ resource "vsphere_virtual_machine" "vm_web" {
     }
 
       ipv4_gateway = "10.100.1.1"
-      dns_server_list = "10.0.128.3"
-      dns_suffix_list = "bsa.local"
+      dns_server_list = [var.dns_list]
+      dns_suffix_list = [var.dns_search]
     }
   }
 }
@@ -147,8 +147,8 @@ resource "vsphere_virtual_machine" "vm_app" {
 
     }
       ipv4_gateway = "10.100.2.1"
-      dns_server_list = "10.0.128.3"
-      dns_suffix_list = "bsa.local"
+      dns_server_list = [var.dns_list]
+      dns_suffix_list = [var.dns_search]
     }
   }
 }
@@ -197,8 +197,8 @@ resource "vsphere_virtual_machine" "vm_db" {
 
     }
       ipv4_gateway = "10.100.3.1"
-      dns_server_list = "10.0.128.3"
-      dns_suffix_list = "bsa.local"
+      dns_server_list = [var.dns_list]
+      dns_suffix_list = [var.dns_search]
     }
   }
 }
