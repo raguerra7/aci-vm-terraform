@@ -1,0 +1,167 @@
+---
+# Tenant configuration for a 3-tier web application.
+# Manages: VRF, Bridge Domains, Application Profile, EPGs, Contracts, Filters, L3Out.
+#
+# Tier layout:
+#   Internet ──(web-to-internet)──> WEB_EPG ──(app-to-web)──> APP_EPG ──(db-to-app)──> DB_EPG
+#
+# Subnets:
+#   Web tier:  10.100.1.0/24  (gateway 10.100.1.1)
+#   App tier:  10.100.2.0/24  (gateway 10.100.2.1)
+#   DB tier:   10.100.3.0/24  (gateway 10.100.3.1)
+#   External:  10.0.3.28/27
+
+apic:
+  tenants:
+    - name: 3tier-app
+      description: 3-tier application tenant managed by Network as Code
+
+      # ─── VRF ─────────────────────────────────────────────────────────────────
+      vrfs:
+        - name: prod-vrf
+          description: Production VRF for the 3-tier application
+          enforcement_direction: ingress
+          enforcement_preference: enforced
+
+      # ─── Bridge Domains ───────────────────────────────────────────────────────
+      bridge_domains:
+        - name: web-bd
+          description: Web tier bridge domain
+          vrf: prod-vrf
+          unicast_routing: true
+          subnets:
+            - ip: 10.100.1.1/24
+              scope: [public]
+
+        - name: app-bd
+          description: App tier bridge domain
+          vrf: prod-vrf
+          unicast_routing: true
+          subnets:
+            - ip: 10.100.2.1/24
+              scope: [private]
+
+        - name: db-bd
+          description: DB tier bridge domain
+          vrf: prod-vrf
+          unicast_routing: true
+          subnets:
+            - ip: 10.100.3.1/24
+              scope: [private]
+
+      # ─── Filters ──────────────────────────────────────────────────────────────
+      filters:
+        - name: allow-http
+          description: Permit HTTP (80) and HTTPS (443)
+          entries:
+            - name: http
+              ethertype: ip
+              protocol: tcp
+              destination_from_port: http
+              destination_to_port: http
+            - name: https
+              ethertype: ip
+              protocol: tcp
+              destination_from_port: https
+              destination_to_port: https
+
+        - name: allow-tomcat
+          description: Permit Tomcat (8080-8081)
+          entries:
+            - name: tomcat
+              ethertype: ip
+              protocol: tcp
+              destination_from_port: 8080
+              destination_to_port: 8081
+
+        - name: allow-mysql
+          description: Permit MySQL (3306)
+          entries:
+            - name: mysql
+              ethertype: ip
+              protocol: tcp
+              destination_from_port: 3306
+              destination_to_port: 3306
+
+      # ─── Contracts ────────────────────────────────────────────────────────────
+      contracts:
+        - name: app-to-web
+          description: Allow Tomcat traffic between APP (provider) and WEB (consumer)
+          scope: tenant
+          subjects:
+            - name: tomcat
+              filters:
+                - filter: allow-tomcat
+
+        - name: db-to-app
+          description: Allow MySQL traffic between DB (provider) and APP (consumer)
+          scope: tenant
+          subjects:
+            - name: mysql
+              filters:
+                - filter: allow-mysql
+
+        - name: web-to-internet
+          description: Allow HTTP/HTTPS between WEB (provider) and external network (consumer)
+          scope: tenant
+          subjects:
+            - name: http-https
+              filters:
+                - filter: allow-http
+
+      # ─── Application Profile & EPGs ───────────────────────────────────────────
+      application_profiles:
+        - name: 3tier-app
+          description: 3-tier application profile managed by Network as Code
+          endpoint_groups:
+            - name: WEB_EPG
+              description: Web tier endpoint group
+              bridge_domain: web-bd
+              vmm_domains:
+                - name: vDS-Comp-01
+                  deployment_immediacy: lazy
+                  resolution_immediacy: immediate
+              contracts:
+                consumers:
+                  - app-to-web
+                providers:
+                  - web-to-internet
+
+            - name: APP_EPG
+              description: Application tier endpoint group
+              bridge_domain: app-bd
+              vmm_domains:
+                - name: vDS-Comp-01
+                  deployment_immediacy: lazy
+                  resolution_immediacy: immediate
+              contracts:
+                providers:
+                  - app-to-web
+                consumers:
+                  - db-to-app
+
+            - name: DB_EPG
+              description: Database tier endpoint group
+              bridge_domain: db-bd
+              vmm_domains:
+                - name: vDS-Comp-01
+                  deployment_immediacy: lazy
+                  resolution_immediacy: immediate
+              contracts:
+                providers:
+                  - db-to-app
+
+      # ─── L3Out (internet connectivity) ────────────────────────────────────────
+      l3outs:
+        - name: internet
+          description: L3Out for external internet connectivity
+          vrf: prod-vrf
+          external_endpoint_groups:
+            - name: ext-net
+              description: External network subnets allowed to reach WEB tier
+              subnets:
+                - prefix: 10.0.3.28/27
+                  import_security: true
+              contracts:
+                consumers:
+                  - web-to-internet

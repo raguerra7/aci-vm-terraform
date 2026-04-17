@@ -1,0 +1,110 @@
+---
+# Access policy configuration.
+# Manages: VLAN pools, VMware VMM domain, physical domain, AEP, and interface policies.
+#
+# The VMM domain (vDS-Comp-01) is referenced by EPG-to-domain bindings in
+# tenant_3tier_app.yaml. All three tiers (WEB, APP, DB) attach to this domain.
+
+apic:
+  access_policies:
+
+    # ─── VLAN Pools ─────────────────────────────────────────────────────────────
+    vlan_pools:
+      - name: vmware-vlan-pool
+        description: Dynamic VLAN pool for VMware DVS portgroups
+        allocation: dynamic
+        ranges:
+          - from: 1000
+            to: 1099
+
+      - name: phys-vlan-pool
+        description: Static VLAN pool for bare-metal servers
+        allocation: static
+        ranges:
+          - from: 100
+            to: 199
+
+    # ─── Physical Domain ────────────────────────────────────────────────────────
+    physical_domains:
+      - name: phys-domain
+        description: Physical domain for bare-metal server connectivity
+        vlan_pool: phys-vlan-pool
+
+    # ─── VMware VMM Domain ──────────────────────────────────────────────────────
+    vmware_vmm_domains:
+      - name: vDS-Comp-01
+        description: VMware vDS managed by ACI VMM integration
+        vlan_pool: vmware-vlan-pool
+        access_mode: read-write
+        delimiter: "|"
+        vswitch_policy:
+          lldp_policy: default
+          cdp_policy: default
+          port_channel_policy: default
+
+    # ─── Attachable Entity Profile (AEP) ────────────────────────────────────────
+    aaeps:
+      - name: vmware-aep
+        description: AEP for VMware DVS uplink interfaces
+        physical_domains:
+          - phys-domain
+        vmware_vmm_domains:
+          - vDS-Comp-01
+
+      - name: phys-aep
+        description: AEP for bare-metal server interfaces
+        physical_domains:
+          - phys-domain
+
+    # ─── Interface Policies ──────────────────────────────────────────────────────
+    link_level_policies:
+      - name: 10G-auto
+        description: 10 Gbps auto-negotiation
+        speed: 10G
+        auto: true
+
+      - name: 25G-auto
+        description: 25 Gbps auto-negotiation
+        speed: 25G
+        auto: true
+
+    cdp_policies:
+      - name: cdp-enabled
+        description: CDP enabled
+        admin_state: true
+
+      - name: cdp-disabled
+        description: CDP disabled
+        admin_state: false
+
+    lldp_policies:
+      - name: lldp-enabled
+        description: LLDP send and receive enabled
+        receive_state: true
+        transmit_state: true
+
+    port_channel_policies:
+      - name: lacp-active
+        description: LACP active mode for port-channel bundles
+        mode: active
+        min_links: 1
+        max_links: 16
+
+    # ─── Leaf Interface Policy Groups ────────────────────────────────────────────
+    leaf_interface_policy_groups:
+      - name: vmware-uplink-pg
+        description: Policy group for VMware ESXi uplinks
+        type: vpc
+        link_level_policy: 10G-auto
+        cdp_policy: cdp-enabled
+        lldp_policy: lldp-enabled
+        port_channel_policy: lacp-active
+        aaep: vmware-aep
+
+      - name: server-access-pg
+        description: Policy group for bare-metal server access ports
+        type: access
+        link_level_policy: 10G-auto
+        cdp_policy: cdp-enabled
+        lldp_policy: lldp-enabled
+        aaep: phys-aep
