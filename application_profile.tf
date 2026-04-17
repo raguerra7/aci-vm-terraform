@@ -26,17 +26,16 @@ resource "aci_application_epg" "DB_EPG" {
 
 
 resource "aci_epg_to_domain" "web" {
-  application_epg_dn	= aci_application_epg.WEB_EPG.id
-  tdn			= "uni/vmmp-VMware/dom-vDS-Comp-01"
+  application_epg_dn = aci_application_epg.WEB_EPG.id
+  tdn                = var.vmm_domain_dn
 }
 
-
 resource "aci_epg_to_domain" "app" {
-  application_epg_dn	= aci_application_epg.APP_EPG.id
-  tdn			= "uni/vmmp-VMware/dom-vDS-Comp-01"
+  application_epg_dn = aci_application_epg.APP_EPG.id
+  tdn                = var.vmm_domain_dn
 }
 
 resource "aci_epg_to_domain" "db" {
-  application_epg_dn	= aci_application_epg.DB_EPG.id
-  tdn			= "uni/vmmp-VMware/dom-vDS-Comp-01"
+  application_epg_dn = aci_application_epg.DB_EPG.id
+  tdn                = var.vmm_domain_dn
 }

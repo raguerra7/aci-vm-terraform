@@ -88,7 +88,7 @@ resource "vsphere_virtual_machine" "vm_web" {
     customize {
       linux_options {
         host_name = "web${count.index}"
-        domain = "bsa.local"
+        domain    = var.vm_domain
       }
 
     network_interface {
@@ -142,7 +142,7 @@ resource "vsphere_virtual_machine" "vm_app" {
     customize {
       linux_options {
         host_name = "app${count.index}"
-        domain = "bsa.local.com"
+        domain    = var.vm_domain
       }
 
     network_interface {
@@ -194,7 +194,7 @@ resource "vsphere_virtual_machine" "vm_db" {
     customize {
       linux_options {
         host_name = "db${count.index}"
-        domain = "bsa.local"
+        domain    = var.vm_domain
       }
 
     network_interface {

@@ -6,7 +6,9 @@ terraform {
     aci = {
       source = "ciscodevnet/aci"
     }
-  
+    time = {
+      source = "hashicorp/time"
+    }
   }
 }
 

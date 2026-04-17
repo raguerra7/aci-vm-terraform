@@ -67,6 +67,12 @@ resource "aci_filter_entry" "mysql" {
 
 
 #Contract Subject Creation
+resource "aci_contract_subject" "web_internet" {
+  contract_dn                  = aci_contract.web_to_internet.id
+  name                         = "http_https"
+  relation_vz_rs_subj_filt_att = [aci_filter.allow_http.id]
+}
+
 resource "aci_contract_subject" "dev_app" {
   contract_dn = aci_contract.app_to_web.id
   name        = "tomcat"
