@@ -1,13 +1,16 @@
 terraform {
   required_providers {
     vsphere = {
-      source = "vmware/vsphere"
+      source  = "vmware/vsphere"
+      version = "~> 2.16"
     }
     aci = {
-      source = "ciscodevnet/aci"
+      source  = "ciscodevnet/aci"
+      version = "~> 2.20"
     }
     time = {
-      source = "hashicorp/time"
+      source  = "hashicorp/time"
+      version = "~> 0.14"
     }
   }
 }
