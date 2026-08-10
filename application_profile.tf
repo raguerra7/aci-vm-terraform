@@ -6,21 +6,21 @@ resource "aci_application_profile" "test-app" {
 
 resource "aci_application_epg" "WEB_EPG" {
   application_profile_dn = aci_application_profile.test-app.id
-  name			 = "WEB_EPG"
-  relation_fv_rs_bd = aci_bridge_domain.web_bd.id
+  name                   = "WEB_EPG"
+  relation_fv_rs_bd      = aci_bridge_domain.web_bd.id
 }
 
 
 resource "aci_application_epg" "APP_EPG" {
   application_profile_dn = aci_application_profile.test-app.id
-  name			 = "APP_EPG"
-  relation_fv_rs_bd = aci_bridge_domain.app_bd.id
+  name                   = "APP_EPG"
+  relation_fv_rs_bd      = aci_bridge_domain.app_bd.id
 }
 
 resource "aci_application_epg" "DB_EPG" {
   application_profile_dn = aci_application_profile.test-app.id
-  name			 = "DB_EPG"
-  relation_fv_rs_bd = aci_bridge_domain.db_bd.id
+  name                   = "DB_EPG"
+  relation_fv_rs_bd      = aci_bridge_domain.db_bd.id
 }
 
 

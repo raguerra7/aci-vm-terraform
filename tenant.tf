@@ -4,51 +4,52 @@ resource "aci_tenant" "tenant" {
 }
 
 resource "aci_vrf" "test-vrf" {
-  tenant_dn	= aci_tenant.tenant.id
-  name 		= "test-vrf"
+  tenant_dn = aci_tenant.tenant.id
+  name      = "test-vrf"
 }
 
 resource "aci_bridge_domain" "web_bd" {
-  tenant_dn	= aci_tenant.tenant.id
-  name		= "web_bd"
+  tenant_dn          = aci_tenant.tenant.id
+  name               = "web_bd"
   relation_fv_rs_ctx = aci_vrf.test-vrf.id
 }
 
 
 resource "aci_subnet" "web_subnet" {
-  parent_dn 	= aci_bridge_domain.web_bd.id
-  ip 			= "10.100.1.1/24"
+  parent_dn = aci_bridge_domain.web_bd.id
+  ip        = "10.100.1.1/24"
 }
 
 resource "aci_bridge_domain" "app_bd" {
-  tenant_dn = aci_tenant.tenant.id
-  name    = "app_bd"
+  tenant_dn          = aci_tenant.tenant.id
+  name               = "app_bd"
   relation_fv_rs_ctx = aci_vrf.test-vrf.id
 }
 
 
 resource "aci_subnet" "app_subnet" {
-  parent_dn   = aci_bridge_domain.app_bd.id
-  ip      = "10.100.2.1/24"
+  parent_dn = aci_bridge_domain.app_bd.id
+  ip        = "10.100.2.1/24"
 }
 
 
 resource "aci_bridge_domain" "db_bd" {
-  tenant_dn = aci_tenant.tenant.id
-  name    = "db_bd"
+  tenant_dn          = aci_tenant.tenant.id
+  name               = "db_bd"
   relation_fv_rs_ctx = aci_vrf.test-vrf.id
 }
 
 
 resource "aci_subnet" "db_subnet" {
-  parent_dn   = aci_bridge_domain.db_bd.id
-  ip      = "10.100.3.1/24"
+  parent_dn = aci_bridge_domain.db_bd.id
+  ip        = "10.100.3.1/24"
 }
 
 
 resource "aci_l3_outside" "internet" {
-  tenant_dn = aci_tenant.tenant.id
-  name      = "internet"
+  tenant_dn              = aci_tenant.tenant.id
+  name                   = "internet"
+  relation_l3ext_rs_ectx = aci_vrf.test-vrf.id
 }
 
 resource "aci_external_network_instance_profile" "dev_ext_net_prof" {
@@ -58,5 +59,5 @@ resource "aci_external_network_instance_profile" "dev_ext_net_prof" {
 
 resource "aci_l3_ext_subnet" "ext_subnet" {
   external_network_instance_profile_dn = aci_external_network_instance_profile.dev_ext_net_prof.id
-  ip          = "10.0.3.28/27"
+  ip                                   = "10.0.3.28/27"
 }

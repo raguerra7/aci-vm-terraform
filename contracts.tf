@@ -30,8 +30,8 @@ resource "aci_filter" "allow_mysql" {
 
 
 resource "aci_filter_entry" "http" {
-  filter_dn = aci_filter.allow_http.id
-  name      = "http"
+  filter_dn   = aci_filter.allow_http.id
+  name        = "http"
   d_from_port = "80"
   d_to_port   = "80"
   prot        = "tcp"
@@ -39,8 +39,8 @@ resource "aci_filter_entry" "http" {
 }
 
 resource "aci_filter_entry" "https" {
-  filter_dn = aci_filter.allow_http.id
-  name      = "https"
+  filter_dn   = aci_filter.allow_http.id
+  name        = "https"
   d_from_port = "https"
   d_to_port   = "https"
   prot        = "tcp"
@@ -48,8 +48,8 @@ resource "aci_filter_entry" "https" {
 }
 
 resource "aci_filter_entry" "tomcat" {
-  filter_dn = aci_filter.allow_tomcat2.id
-  name      = "tomcat"
+  filter_dn   = aci_filter.allow_tomcat2.id
+  name        = "tomcat"
   d_from_port = "8080"
   d_to_port   = "8081"
   prot        = "tcp"
@@ -57,8 +57,8 @@ resource "aci_filter_entry" "tomcat" {
 }
 
 resource "aci_filter_entry" "mysql" {
-  filter_dn = aci_filter.allow_mysql.id
-  name      = "mysql"
+  filter_dn   = aci_filter.allow_mysql.id
+  name        = "mysql"
   d_from_port = "3306"
   d_to_port   = "3306"
   prot        = "tcp"
@@ -74,14 +74,14 @@ resource "aci_contract_subject" "web_internet" {
 }
 
 resource "aci_contract_subject" "dev_app" {
-  contract_dn = aci_contract.app_to_web.id
-  name        = "tomcat"
+  contract_dn                  = aci_contract.app_to_web.id
+  name                         = "tomcat"
   relation_vz_rs_subj_filt_att = [aci_filter.allow_tomcat2.id]
 }
 
 resource "aci_contract_subject" "dev_db" {
-  contract_dn = aci_contract.db_to_app.id
-  name        = "mysql"
+  contract_dn                  = aci_contract.db_to_app.id
+  name                         = "mysql"
   relation_vz_rs_subj_filt_att = [aci_filter.allow_mysql.id]
 }
 

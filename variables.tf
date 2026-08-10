@@ -58,19 +58,9 @@ variable "vsphere_vm_template" {
   description = "Name of the VM template to clone"
 }
 
-variable "vsphere_vm_name" {
-  type        = string
-  description = "Base name for VMs (tier and index are appended automatically)"
-}
-
 variable "vsphere_resource_pool" {
   type        = string
   description = "Resource pool path, e.g. Cluster1/Resources"
-}
-
-variable "vsphere_vm_portgroup" {
-  type        = string
-  description = "Name of the default portgroup"
 }
 
 variable "vsphere_vm_cpu" {

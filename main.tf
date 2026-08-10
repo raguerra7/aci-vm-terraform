@@ -1,13 +1,16 @@
 terraform {
   required_providers {
     vsphere = {
-      source = "hashicorp/vsphere"
+      source  = "vmware/vsphere"
+      version = "~> 2.16"
     }
     aci = {
-      source = "ciscodevnet/aci"
+      source  = "ciscodevnet/aci"
+      version = "~> 2.20"
     }
     time = {
-      source = "hashicorp/time"
+      source  = "hashicorp/time"
+      version = "~> 0.14"
     }
   }
 }
@@ -21,11 +24,11 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 provider "aci" {
-    # cisco-aci user name
-    username = var.aci_username
-    # cisco-aci password
-    password = var.aci_password
-    # cisco-aci url
-    url      = var.aci_url
-    insecure = true
+  # cisco-aci user name
+  username = var.aci_username
+  # cisco-aci password
+  password = var.aci_password
+  # cisco-aci url
+  url      = var.aci_url
+  insecure = true
 }
