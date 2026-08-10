@@ -2,6 +2,13 @@
 
 Terraform configuration for building a Cisco ACI tenant and the core policy objects required for a three-tier application environment, including application profiles, EPGs, contracts, and VMware VMM integration.
 
+<p align="left">
+  <img alt="Cisco ACI" src="https://img.shields.io/badge/Cisco_ACI-049FD9?style=for-the-badge&logo=cisco&logoColor=white">
+  <img alt="Terraform" src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=terraform&logoColor=white">
+  <img alt="VMware" src="https://img.shields.io/badge/VMware-607078?style=for-the-badge&logo=vmware&logoColor=white">
+  <img alt="Infrastructure as Code" src="https://img.shields.io/badge/Infrastructure_as_Code-1F2937?style=for-the-badge">
+</p>
+
 ## Overview
 
 This repository is a lab and reference implementation for modeling a web, application, and database architecture in Cisco ACI. It also demonstrates how ACI-created port groups can be consumed by Terraform when deploying virtual machines to VMware vSphere.
