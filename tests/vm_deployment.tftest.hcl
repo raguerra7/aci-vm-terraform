@@ -1,6 +1,12 @@
 # Verifies VM count scaling, naming conventions, resource sizing, and consistent domain assignment.
 
-mock_provider "vsphere" {}
+mock_provider "vsphere" {
+  mock_data "vsphere_virtual_machine" {
+    defaults = {
+      scsi_type = "pvscsi"
+    }
+  }
+}
 mock_provider "aci" {}
 mock_provider "time" {}
 
